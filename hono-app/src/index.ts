@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
-import { getPrisma } from './prismaFunction'
-import { decode, sign, verify } from 'hono/jwt'
+import userRouter  from './routes/user'
+import bolgRouter from './routes/blog'
 
 const app = new Hono<{
   Bindings: {
@@ -12,34 +12,7 @@ const app = new Hono<{
   }
 }>()
 
-app.post('/api/v1/user/signup', async (c) => {
-  const body = await c.req.json();
-
-  const prisma = getPrisma(c.env.DATABASE_URL)
-
-  //do the zod validation and hashed password
-
-  try {
-      const user = await prisma.user.create({
-        data: {
-          username: body.username,
-          password: body.password
-         }
-        })
-        const secret = String(c.env.JWT_SECRET)
-        const token = await sign(
-          {
-            id: user.id,
-            exp: Math.floor(Date.now() / 1000) + 60 * 10, // expires in 10 mins
-          },
-          secret
-        );
-        return c.json("success!", { user, token });
-  }catch(err){
-      c.status(411)
-      return c.text('Invalid')
-  }
-  
-})
+app.route('/api/v1/user', userRouter)
+app.route('/api/v1/blog', bolgRouter)
 
 export default app
