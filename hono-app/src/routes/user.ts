@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { getPrisma } from "../prismaFunction";
 import { decode, sign, verify } from "hono/jwt";
+import { signinInput, signupInput } from "common-utils-zod-kiran";
 
 const userRouter = new Hono<{Bindings: {
     DATABASE_URL: string
@@ -9,6 +10,14 @@ const userRouter = new Hono<{Bindings: {
 
 userRouter.post('/signup', async (c) => {
   const body = await c.req.json();
+  const { success } = signupInput.safeParse(body)
+
+  if(!success){
+    c.status(411);
+    return c.json({
+      message: "Enter valid inputs"
+    })
+  }
 
   const prisma = getPrisma(c.env.DATABASE_URL)
 
@@ -39,6 +48,14 @@ userRouter.post('/signup', async (c) => {
 userRouter.post('/signin', async (c) => {
   const body = await c.req.json();
 
+  const { success } = signinInput.safeParse(body)
+
+  if(!success){
+    c.status(411);
+    return c.json({
+      message: "Enter valid inputs"
+    })
+  }
   const prisma = getPrisma(c.env.DATABASE_URL)
 
   //do the zod validation and hashed password

@@ -15,4 +15,9 @@ const app = new Hono<{
 app.route('/api/v1/user', userRouter)
 app.route('/api/v1/blog', bolgRouter)
 
+app.get('/', (c) => {
+  return c.text("Hello dev!");
+})
+
+
 export default app

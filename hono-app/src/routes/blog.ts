@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { getPrisma } from "../prismaFunction";
 import { verify } from "hono/jwt";
+import { createBlogInput, updateBlogInput } from "common-utils-zod-kiran";
 
 const bolgRouter = new Hono<{
     Bindings: {
@@ -30,6 +31,14 @@ bolgRouter.use("/*", async (c, next) => {
 
 bolgRouter.post('/', async (c) => {
     const body = await c.req.json();
+    const { success } = createBlogInput.safeParse(body)
+    
+      if(!success){
+        c.status(411);
+        return c.json({
+          message: "Enter valid inputs"
+        })
+      }
     const prisma = getPrisma(c.env.DATABASE_URL)
     const authorId = c.get("userId")
     const blog = await prisma.blog.create({
@@ -47,6 +56,16 @@ bolgRouter.post('/', async (c) => {
 
 bolgRouter.put('/', async (c) => {
     const body = await c.req.json();
+
+    const { success } = updateBlogInput.safeParse(body)
+    
+      if(!success){
+        c.status(411);
+        return c.json({
+          message: "Enter valid inputs"
+        })
+      }
+
     const prisma = getPrisma(c.env.DATABASE_URL)
     
 
