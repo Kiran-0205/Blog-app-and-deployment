@@ -1,6 +1,11 @@
+import SigninC from "../components/SigninC"
+
 function Signin() {
   return (
-    <div>Signin</div>
+    <div>
+      <SigninC />
+    </div>
+    
   )
 }
 
