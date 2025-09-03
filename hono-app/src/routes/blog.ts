@@ -89,7 +89,18 @@ bolgRouter.put('/', async (c) => {
 bolgRouter.get('/bulk', async (c) => {
 
     const prisma = getPrisma(c.env.DATABASE_URL)
-    const blogs = await prisma.blog.findMany()
+    const blogs = await prisma.blog.findMany({
+        select: {
+            content: true,
+            title: true,
+            id: true,
+            author: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    });
 
     return c.json({
         blogs
@@ -116,9 +127,5 @@ bolgRouter.get('/:id', async (c) => {
 
 // sending valid error codes
 })
-
-
-
-
 
 export default bolgRouter

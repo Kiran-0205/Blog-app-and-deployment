@@ -2,8 +2,11 @@ import { useState } from "react";
 import Logo from "../assets/logo.png";
 import GoogleSvg from "../assets/icons8-google.svg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { SignupInput } from "common-utils-zod-kiran";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
+
 
 const SignupC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +15,21 @@ const SignupC = () => {
         username: "",
         password: ""
   });
+  const navigate = useNavigate();
+
+  const sendRequest = async () => {
+    try{
+      const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, postInputs);
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      navigate("/blogs")
+      
+    }catch(err){
+      console.log("Signup failed");
+      console.log(err)
+    }
+  }
+   
 
   return (
     <div className="flex min-h-screen">
@@ -93,6 +111,7 @@ const SignupC = () => {
                 <button
                   type="button"
                   className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                  onClick={sendRequest}
                 >
                   Sign Up
                 </button>
