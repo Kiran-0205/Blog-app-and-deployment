@@ -38,7 +38,8 @@ userRouter.post('/signup', async (c) => {
           },
           secret
         );
-        return c.json("success!", { user, token });
+        return c.json({
+          message: "success!", user, token} );
   }catch(err){
       c.status(411)
       return c.text('Invalid')
