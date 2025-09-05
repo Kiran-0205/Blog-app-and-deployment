@@ -32,19 +32,20 @@ export const AppBar = () => {
     <div className="w-full border-b border-gray-200 bg-white sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
-        <Link to="/blogs" className="text-2xl font-bold text-gray-900">
-          Blooggg
+
+          <Link to="/blogs" className="text-2xl font-bold text-gray-900">
+            Scribble
+          {/* cribble */}
         </Link>
+
+        
 
         {/* Navigation */}
         <div className="hidden md:flex items-center gap-6 text-gray-600 text-sm font-medium">
           <Link to="/blogs" className="hover:text-gray-900">
             Home
           </Link>
-          <Link to="/about" className="hover:text-gray-900">
-            About
-          </Link>
-          <Link to="/create" className="hover:text-gray-900">
+          <Link to="/publish" className="hover:text-gray-900">
             Write
           </Link>
         </div>

@@ -1,6 +1,6 @@
 import { useBlogs } from "../hooks/fetchBlogs";
-import { AppBar } from "./Appbar";
-import { BlogCard } from "./BlogCard";
+import { BlogCard } from "../components/BlogCard";
+import { BlogSkeleton } from "../components/BlogSkeleton";
 
 
 
@@ -12,15 +12,22 @@ function Blogs() {
     if(loading){
         return (
             <div>
-                Loading..
+            <div  className="flex justify-center">
+                <div>
+                    <BlogSkeleton />
+                    <BlogSkeleton />
+                    <BlogSkeleton />
+                    <BlogSkeleton />
+                    <BlogSkeleton />
+                </div>
             </div>
+        </div>
         )
     }
 
   return (
     <div className="min-h-screen w-full bg-gray-50 flex flex-col">
       {/* Sticky App Bar */}
-      <AppBar />
 
       {/* Blog feed */}
       <div className="flex justify-center px-4 py-10">
