@@ -18,9 +18,10 @@ const SigninC = () => {
   const sendRequest = async () => {
     try{
       const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, postInputs);
-      const token = response.data;
+      const token = response.data.token;
+      localStorage.setItem("userName", response.data.user.username);
       localStorage.setItem("token", token);
-      navigate("/blogs")
+      navigate("/")
       
     }catch(err){
       console.log("Signup failed");
