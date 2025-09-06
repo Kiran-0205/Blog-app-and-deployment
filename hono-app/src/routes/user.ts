@@ -77,8 +77,8 @@ userRouter.post('/signin', async (c) => {
         const secret = String(c.env.JWT_SECRET)
         const token = await sign({
           id: user.id,
-        },secret )
-        return c.text(token);
+        }, secret)
+        return c.json({token, "user": user});
   }catch(err){
       c.status(411)
       return c.text('Invalid')

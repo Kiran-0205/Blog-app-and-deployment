@@ -22,14 +22,14 @@ const SignupC = () => {
       const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, postInputs);
       const token = response.data.token;
       localStorage.setItem("token", token);
-      navigate("/blogs")
+      navigate("/")
       
     }catch(err){
       console.log("Signup failed");
       console.log(err)
     }
   }
-   
+  
 
   return (
     <div className="flex min-h-screen">
